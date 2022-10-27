@@ -6,6 +6,9 @@ namespace App.Infra.Data.Repository
 {
     public class EnderecoRepository : Repository<Endereco>, IEnderecoRepository
     {
+
+        public EnderecoRepository(MvcContext context) : base(context) { }
+
         public async Task<Endereco> ObterEnderecoPorFornecedor(Guid fornecedorId)
         {
             //return await Db.Enderecos.AsNoTracking()

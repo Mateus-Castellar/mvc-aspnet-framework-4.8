@@ -9,6 +9,8 @@ namespace App.Infra.Data.Repository
 {
     public class ProdutoRepository : Repository<Produto>, IProdutoRepository
     {
+        public ProdutoRepository(MvcContext context) : base(context) { }
+
         public async Task<Produto> ObterProdutoFornecedor(Guid id)
         {
             return await Db.Produtos.AsNoTracking()

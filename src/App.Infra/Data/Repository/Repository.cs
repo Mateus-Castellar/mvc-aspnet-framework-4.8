@@ -14,9 +14,9 @@ namespace App.Infra.Data.Repository
         protected readonly MvcContext Db;
         protected readonly DbSet<TEntity> DbSet;
 
-        public Repository()
+        public Repository(MvcContext db)
         {
-            Db = new MvcContext();
+            Db = db;
             DbSet = Db.Set<TEntity>();
         }
 
