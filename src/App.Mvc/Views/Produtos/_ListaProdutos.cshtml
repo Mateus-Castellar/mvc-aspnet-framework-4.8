@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<App.Mvc.ViewModels.ProdutoViewModel>
+@using App.Mvc.Extensions
 
 <table class="table table-hover">
     <thead>
@@ -42,8 +43,12 @@
                 </td>
                 <td class="text-right">
                     <a class="btn btn-warning" href="@Url.Action("Details", "Produtos", new {id = item.Id})"><spam class="glyphicon glyphicon-search"></spam></a>
-                    <a class="btn btn-info" href="@Url.Action("Edit", "Produtos", new {id = item.Id})"><spam class="glyphicon glyphicon-pencil"></spam></a>
-                    <a class="btn btn-danger" href="@Url.Action("Delete", "Produtos", new {id = item.Id})"><spam class="glyphicon glyphicon-trash"></spam></a>
+
+                    @*Oculta o botão para nao aparecer na tela baseado na claim*@
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-info" }).PermitirExibicao("Produto", "Editar")
+                    @*<a class="btn btn-info" href="@Url.Action("Edit", "Produtos", new {id = item.Id})"><spam class="glyphicon glyphicon-pencil"></spam></a>*@
+                    
+                    <a class="btn btn-danger" href="@Url.ActionComPermissao("Delete", "Produtos", new {id = item.Id},"Produto", "Editar")"><spam class="glyphicon glyphicon-trash"></spam></a>
                 </td>
             </tr>
         }
