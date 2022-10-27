@@ -27,6 +27,7 @@ namespace App.Mvc.Controllers
         }
 
         [HttpGet]
+        [Route("")]
         [Route("lista-de-produtos")]
         public async Task<ActionResult> Index()
         {
