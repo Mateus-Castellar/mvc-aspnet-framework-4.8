@@ -267,11 +267,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Produtos\Create.cshtml" />
-    <Content Include="Views\Produtos\Delete.cshtml" />
-    <Content Include="Views\Produtos\Details.cshtml" />
-    <Content Include="Views\Produtos\Edit.cshtml" />
-    <Content Include="Views\Produtos\Index.cshtml" />
     <Content Include="Views\Fornecedores\Create.cshtml" />
     <Content Include="Views\Fornecedores\Delete.cshtml" />
     <Content Include="Views\Fornecedores\Details.cshtml" />
@@ -280,6 +275,12 @@
     <Content Include="Views\Fornecedores\_AtualizarEndereco.cshtml" />
     <Content Include="Views\Fornecedores\_DetalhesEndereco.cshtml" />
     <Content Include="Views\Fornecedores\_Endereco.cshtml" />
+    <Content Include="Views\Produtos\Create.cshtml" />
+    <Content Include="Views\Produtos\Delete.cshtml" />
+    <Content Include="Views\Produtos\Details.cshtml" />
+    <Content Include="Views\Produtos\Edit.cshtml" />
+    <Content Include="Views\Produtos\Index.cshtml" />
+    <Content Include="Views\Produtos\_ListaProdutos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
