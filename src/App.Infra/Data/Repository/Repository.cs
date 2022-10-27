@@ -47,7 +47,7 @@ namespace App.Infra.Data.Repository
             await SaveChanges();
         }
 
-        public async Task Remover(Guid id)
+        public virtual async Task Remover(Guid id)
         {
             Db.Entry(new TEntity { Id = id }).State = EntityState.Deleted;
             await SaveChanges();
