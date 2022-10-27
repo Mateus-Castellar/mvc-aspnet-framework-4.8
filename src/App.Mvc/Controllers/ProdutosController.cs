@@ -1,4 +1,5 @@
-﻿using App.Business.Models.Fornecedores;
+﻿using App.Business.Core.Notificacoes;
+using App.Business.Models.Fornecedores;
 using App.Business.Models.Produtos;
 using App.Business.Models.Produtos.Services;
 using App.Mvc.ViewModels;
@@ -20,7 +21,7 @@ namespace App.Mvc.Controllers
         private readonly IMapper _mapper;
 
         public ProdutosController(IProdutoRepository produtoRepository, IProdutoService produtoService,
-            IMapper mapper, IFornecedorRepository fornecedorRepository)
+            IMapper mapper, IFornecedorRepository fornecedorRepository, INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
             _produtoService = produtoService;

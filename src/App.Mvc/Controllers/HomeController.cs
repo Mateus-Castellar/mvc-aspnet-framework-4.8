@@ -2,7 +2,7 @@
 
 namespace App.Mvc.Controllers
 {
-    public class HomeController : CoreController
+    public class HomeController : Controller
     {
         public ActionResult Index()
         {

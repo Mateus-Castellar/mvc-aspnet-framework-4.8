@@ -1,4 +1,5 @@
-﻿using App.Business.Models.Fornecedores;
+﻿using App.Business.Core.Notificacoes;
+using App.Business.Models.Fornecedores;
 using App.Business.Models.Fornecedores.Services;
 using App.Mvc.ViewModels;
 using AutoMapper;
@@ -15,8 +16,9 @@ namespace App.Mvc.Controllers
         private readonly IFornecedorService _fornecedorService;
         private readonly IMapper _mapper;
 
+
         public FornecedoresController(IFornecedorRepository fornecedorRepository, IMapper mapper,
-            IFornecedorService fornecedorService)
+            IFornecedorService fornecedorService, INotificador notificador) : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _mapper = mapper;
@@ -54,6 +56,8 @@ namespace App.Mvc.Controllers
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
 
             await _fornecedorService.Adicionar(fornecedor);
+
+            if (OperacaoValida() is false) return View(fornecedorViewModel);
 
             return RedirectToAction("Index");
         }
