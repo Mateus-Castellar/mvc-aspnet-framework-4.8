@@ -21,6 +21,10 @@ namespace App.Business.Models.Fornecedores.Services
 
         public async Task Adicionar(Fornecedor fornecedor)
         {
+            //ajuste para tratar limitações do ef6
+            fornecedor.Endereco.Id = fornecedor.Id;
+            fornecedor.Endereco.Fornecedor = fornecedor;
+
             if (ExecutarValidacao(new FornecedorValidation(), fornecedor) is false
                 || ExecutarValidacao(new EnderecoValidation(), fornecedor.Endereco) is false) return;
 
