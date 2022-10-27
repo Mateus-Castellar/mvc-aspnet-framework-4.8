@@ -1,4 +1,5 @@
-﻿using App.Business.Models.Produtos;
+﻿using App.Business.Models.Fornecedores;
+using App.Business.Models.Produtos;
 using App.Business.Models.Produtos.Services;
 using App.Mvc.ViewModels;
 using AutoMapper;
@@ -13,14 +14,16 @@ namespace App.Mvc.Controllers
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IProdutoService _produtoService;
+        private readonly IFornecedorRepository _fornecedorRepository;
         private readonly IMapper _mapper;
 
         public ProdutosController(IProdutoRepository produtoRepository, IProdutoService produtoService,
-            IMapper mapper)
+            IMapper mapper, IFornecedorRepository fornecedorRepository)
         {
             _produtoRepository = produtoRepository;
             _produtoService = produtoService;
             _mapper = mapper;
+            _fornecedorRepository = fornecedorRepository;
         }
 
         [HttpGet]
@@ -28,7 +31,7 @@ namespace App.Mvc.Controllers
         public async Task<ActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await
-                _produtoRepository.ObterTodos()));
+                _produtoRepository.ObterProdutosFornecedores()));
         }
 
         [HttpGet]
@@ -44,9 +47,11 @@ namespace App.Mvc.Controllers
 
         [HttpGet]
         [Route("novo-produto")]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            var produtoViewModel = await PopualarFornecedores(new ProdutoViewModel());
+
+            return View(produtoViewModel);
         }
 
         [HttpPost]
@@ -54,6 +59,8 @@ namespace App.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ProdutoViewModel produtoViewModel)
         {
+            produtoViewModel = await PopualarFornecedores(produtoViewModel);
+
             if (ModelState.IsValid is false) return View(produtoViewModel);
 
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
@@ -110,10 +117,21 @@ namespace App.Mvc.Controllers
             return RedirectToAction("Index");
         }
 
+        private async Task<ProdutoViewModel> PopualarFornecedores(ProdutoViewModel produto)
+        {
+            produto.Fornecedores = _mapper.Map<IEnumerable<FornecedorViewModel>>(await
+                _fornecedorRepository.ObterTodos());
+
+            return produto;
+        }
+
         private async Task<ProdutoViewModel> ObterProduto(Guid id)
         {
             var produto = _mapper.Map<ProdutoViewModel>(await
                 _produtoRepository.ObterProdutoFornecedor(id));
+
+            produto.Fornecedores = _mapper.Map<IEnumerable<FornecedorViewModel>>(await
+                _fornecedorRepository.ObterTodos());
 
             return produto;
         }
