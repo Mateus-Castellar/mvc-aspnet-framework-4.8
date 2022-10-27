@@ -13,7 +13,7 @@
 
 <div class="form-horizontal">
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.Partial("_ErrorSummary")
     @Html.HiddenFor(model => model.Id)
 
     <div class="form-group">

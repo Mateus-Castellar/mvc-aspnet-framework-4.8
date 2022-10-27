@@ -16,7 +16,7 @@
 {
     @Html.AntiForgeryToken()
 
-    @*@Html.Partial("_ErrorSummary")*@
+    @Html.Partial("_ErrorSummary")
     <div class="form-horizontal col-md-offset-1">
 
         @Html.HiddenFor(model => model.Endereco.FornecedorId)
