@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using App.Mvc.ViewModels;
+using System.Web.Mvc;
 
 namespace App.Mvc.Controllers
 {
@@ -21,6 +22,35 @@ namespace App.Mvc.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [Route("erro/{id:length(3,3)}")]
+        public ActionResult Errors(int id)
+        {
+            var modelErro = new ErrorViewModel();
+
+            switch (id)
+            {
+                case 500:
+                    modelErro.Mensagem = "Ocorreu um erro! Tente novamente mais tarde ou contate nosso suporte.";
+                    modelErro.Titulo = "Ocorreu um erro!";
+                    modelErro.ErroCode = id;
+                    break;
+                case 404:
+                    modelErro.Mensagem = "A página que está procurando não existe! <br />Em caso de dúvidas entre em contato com nosso suporte";
+                    modelErro.Titulo = "Ops! Página não encontrada.";
+                    modelErro.ErroCode = id;
+                    break;
+                case 403:
+                    modelErro.Mensagem = "Você não tem permissão para fazer isto.";
+                    modelErro.Titulo = "Acesso Negado";
+                    modelErro.ErroCode = id;
+                    break;
+                default:
+                    return new HttpStatusCodeResult(500);
+            }
+
+            return View("Error", modelErro);
         }
     }
 }
