@@ -1,4 +1,5 @@
-﻿using App.Business.Core.Services;
+﻿using App.Business.Core.Notificacoes;
+using App.Business.Core.Services;
 using App.Business.Models.Produtos.Validations;
 using System;
 using System.Threading.Tasks;
@@ -8,8 +9,7 @@ namespace App.Business.Models.Produtos.Services
     public class ProdutoService : BaseService, IProdutoService
     {
         private readonly IProdutoRepository _produtoRepository;
-
-        public ProdutoService(IProdutoRepository produtoRepository)
+        public ProdutoService(IProdutoRepository produtoRepository, INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
         }
