@@ -5,7 +5,9 @@ using App.Mvc.ViewModels;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace App.Mvc.Controllers
@@ -26,9 +28,9 @@ namespace App.Mvc.Controllers
             _fornecedorRepository = fornecedorRepository;
         }
 
-        [HttpGet]
         [Route("")]
         [Route("lista-de-produtos")]
+        [HttpGet]
         public async Task<ActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await
@@ -64,6 +66,13 @@ namespace App.Mvc.Controllers
 
             if (ModelState.IsValid is false) return View(produtoViewModel);
 
+            var imgPrefixo = Guid.NewGuid() + "_";
+
+            if (UploadImagem(produtoViewModel.ImagemUpload, imgPrefixo) is false) return View(produtoViewModel);
+
+            //dado que vai pra base de dados
+            produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
             return RedirectToAction("Index");
@@ -87,7 +96,26 @@ namespace App.Mvc.Controllers
         {
             if (ModelState.IsValid is false) return View(produtoViewModel);
 
-            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoViewModel));
+            var produtoAtualizacao = await ObterProduto(produtoViewModel.Id);
+            produtoViewModel.Imagem = produtoAtualizacao.Imagem;
+
+            //caso a imagem tenha sido alterada
+            if (produtoViewModel.ImagemUpload != null)
+            {
+                var imgPrefixo = Guid.NewGuid() + "_";
+                if (UploadImagem(produtoViewModel.ImagemUpload, imgPrefixo) is false) return View(produtoViewModel);
+
+                produtoAtualizacao.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+            }
+
+            produtoAtualizacao.Nome = produtoViewModel.Nome;
+            produtoAtualizacao.Descricao = produtoViewModel.Descricao;
+            produtoAtualizacao.Valor = produtoViewModel.Valor;
+            produtoAtualizacao.Ativo = produtoViewModel.Ativo;
+            produtoAtualizacao.FornecedorId = produtoViewModel.FornecedorId;
+            produtoAtualizacao.Fornecedor = produtoViewModel.Fornecedor;
+
+            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
 
             return RedirectToAction("Index");
         }
@@ -135,6 +163,26 @@ namespace App.Mvc.Controllers
                 _fornecedorRepository.ObterTodos());
 
             return produto;
+        }
+
+        private bool UploadImagem(HttpPostedFileBase img, string imgPrefixo)
+        {
+            if (img is null || img.ContentLength <= 0)
+            {
+                ModelState.AddModelError(string.Empty, "Imagem em formato inválido!");
+                return false;
+            }
+
+            var path = Path.Combine(HttpContext.Server.MapPath("~/imagens"), imgPrefixo + img.FileName);
+
+            if (System.IO.File.Exists(path))
+            {
+                ModelState.AddModelError(string.Empty, "Já existe um arquivo com este nome!");
+                return false;
+            }
+
+            img.SaveAs(path);
+            return true;
         }
 
         protected override void Dispose(bool disposing)
