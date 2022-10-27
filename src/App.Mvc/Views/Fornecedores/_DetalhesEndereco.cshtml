@@ -11,30 +11,30 @@
     {
         <table class="table table-hover">
             <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Endereco.Logradouro)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Endereco.Numero)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Endereco.Complemento)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Endereco.Bairro)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Endereco.Cep)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Endereco.Cidade)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Endereco.Estado)
-                </th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Endereco.Logradouro)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Endereco.Numero)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Endereco.Complemento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Endereco.Bairro)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Endereco.Cep)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Endereco.Cidade)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Endereco.Estado)
+                    </th>
+                    <th></th>
+                </tr>
             </thead>
 
             <tr>
@@ -60,11 +60,14 @@
                     @Html.DisplayFor(model => model.Endereco.Estado)
                 </td>
                 <td>
-                    @if (this.ExibirNaURL(Model.Id))
-                    {
-                        <a class="btn btn-info" href="@Url.Action("AtualizarEndereco", "Fornecedores", new {id = Model.Id})" data-modal=""><spam class="glyphicon glyphicon-pencil"></spam> </a>
-                    }
+                    <a class="btn btn-info" href="@Url.Action("AtualizarEndereco", "Fornecedores", new {id = Model.Id})" data-modal=""><spam class="glyphicon glyphicon-pencil"></spam> </a>
                 </td>
+                @*<td>
+                        @if (this.ExibirNaURL(Model.Id))
+                        {
+                            <a class="btn btn-info" href="@Url.Action("AtualizarEndereco", "Fornecedores", new {id = Model.Id})" data-modal=""><spam class="glyphicon glyphicon-pencil"></spam> </a>
+                        }
+                    </td>*@
             </tr>
         </table>
     }
