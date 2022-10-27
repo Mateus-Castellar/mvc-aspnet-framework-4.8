@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace App.Mvc.Controllers
 {
-    public class ProdutosController : Controller
+    public class ProdutosController : CoreController
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IProdutoService _produtoService;

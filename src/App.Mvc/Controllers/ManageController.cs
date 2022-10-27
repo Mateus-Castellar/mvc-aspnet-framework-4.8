@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace App.Mvc.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : CoreController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
